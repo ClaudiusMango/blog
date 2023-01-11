@@ -1,0 +1,6 @@
+{% extends 'accounts/authentication.html' %}
+{% block authentication_form %}
+{% include 'form.html' %}
+<p class="mt-3"><a href="{% url 'signup' %}">Don't have an account? Sign up</a></p>
+<p class="mt-3"><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+{% endblock %}

@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% block body %}
-<header>
-    <div class="p-2 bg-dark text-white d-flex align-items-center" style="min-height: 60px;">
+<header class=" border-bottom">
+    <div class="p-2 bg-light d-flex align-items-center" style="min-height: 60px;">
       <div class="container p-0 my-auto">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <button class="btn d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                <svg class="text-white" width="32" height="32"><use xlink:href="#menu"/></svg>
+                <svg class="" width="32" height="32"><use xlink:href="#menu"/></svg>
                 <span class="visually-hidden">Menu icon</span>
             </button>
-          <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none me-auto">
+          <a href="{% url 'home_page' %}" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto link-dark text-decoration-none me-auto">
             <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-            <h3 class="m-0">Brand</h3>
+            <h3 class="m-0">Mofie</h3>
           </a>
           <!-- <ul class="nav">
             <li>
-                <a href="#" class="nav-link text-white">
+                <a href="#" class="nav-link">
                     <svg class="bi d-block mx-auto " width="24" height="24"><use xlink:href="#people-circle"/></svg>
                     <span class="d-none d-md-block mt-1">Account</span>
                 </a>
@@ -27,36 +27,11 @@
 <main class="flex-fill d-flex flex-row py-md-3">
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Mofie blogs</h5>
           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                  <a href="#" class="nav-link link-dark" aria-current="page">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="nav-link active link-dark">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-                    Dashboard
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="nav-link link-dark">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-                    Orders
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="nav-link link-dark">
-                    <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-                    Products
-                  </a>
-                </li>
-              </ul>
+          {% include 'nav.html' %}
         </div>
     </div>
     {% block app_body %}

@@ -15,6 +15,14 @@ class Writer(models.Model):
                 return f"{self.user.first_name } {self.user.last_name}"
             except:
                 return super().__str__()
+    @property
+    def image_url(self):
+        try:
+            url = self.profile_picture.url
+        except:
+            url = ''
+
+        return url
 
 class Blog(models.Model):
     title = models.CharField(max_length=200)

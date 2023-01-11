@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+{% block body %}
+<div class="container px-4 py-5">
+    <div class="row d-flex justify-content-center">
+        <i class="fa fa-h-square fa-4x text-primary" style="text-align: center;"></i>
+        <h1 class="display-4 fw-bold lh-1 mb-4 text-primary" style="text-align: center;">Mofie blogs</h1>
+        <div style="max-width: 450px;">
+            {% block authentication_form %}
+            {% include 'form.html' %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
