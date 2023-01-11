@@ -1,0 +1,32 @@
+{% extends 'app/app.html' %}
+{% block app_body %}
+<div class="container">
+    <div class="row">
+        <div class="card col-12 col-lg-9">
+            <div class="card-header bg-white m-0 p-0 pt-2">
+                <div class="card w-100 border-0">
+                    <div class="d-flex">
+                        <img src="" alt="" style="height: 80px; width: 80px; background-color: lightgray;">
+                        <div class="flex-fill card-body">
+                            <h5 class="card-title">{{ post.post_by.display_name }}</h5>
+                            <p class="card-text"><small class="text-muted">{{ post.posted_on }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <h2>{{ post.title }}</h2>
+            <img src="{{ post.image_url }}" class="card-img-top mx-auto" alt="Post image" style="width: auto; max-height: 300px;">
+            <p>{{ post.introduction }}</p>
+            {% for section in post.post_sections %}
+            <div>
+                <h5>{{section.sub_title}}</h5>
+                <p>{{ section.content }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-12 col-lg-3" style="min-height: 200px;">
+        </div>
+    </div>
+</div>
+{% endblock %}

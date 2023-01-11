@@ -1,0 +1,11 @@
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 m-0">
+    {% for blog in blogs %}
+    <div class="col p-1 m-0" style="min-height: 200px;">
+        <div class="card border h-100">
+            <a href="{% url 'blog' blog.title %}" class="card_body h-100 position-relative text-decoration-none">
+                <h3 class="m-2 position-absolute bottom-0 start-0">{{blog.title}}</h3>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>

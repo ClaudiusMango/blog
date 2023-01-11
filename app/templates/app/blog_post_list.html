@@ -1,0 +1,18 @@
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 m-0">
+    {% for post in blog.posts %}
+    <div class="col p-1 m-0" style="min-height: 200px;">
+        <div class="card h-100 w-100">
+            <img src="{{ post.image_url }}" class="card-img-top" alt="Post image" style="max-height: 120px; width: auto;">
+            <div class="card-body">
+              <h5 class="card-title">{{post.title}}</h5>
+              <p class="card-text" style="max-height: 150px; overflow: hidden;">
+                {{post.introduction}}
+              </p>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="{% url 'blog_post' post.blog.title post.title %}" class="btn">Read more &#8594</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
