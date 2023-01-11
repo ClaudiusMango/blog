@@ -1,4 +1,17 @@
 {% extends 'app/app.html' %}
+{% block styles %}
+<style>
+  .imgs{
+    width: 50%;
+    height: 50%;
+    border-radius: 55%;
+  }
+  .recent{
+    margin-top: 20px;
+  }
+  
+</style>
+{% endblock %}
 {% block app_body %}
 <div class="container">
     <div class="row">
@@ -26,7 +39,23 @@
             {% endfor %}
         </div>
         <div class="col-12 col-lg-3" style="min-height: 200px;">
-        </div>
+         <div style="height:200px;">
+            <img class="imgs" src="https://imgv3.fotor.com/images/blog-cover-image/10-profile-picture-ideas-to-make-you-stand-out.jpg" alt="img" />
+            <h4 style="margin-top: 10px;">Name</h4>
+         </div>
+         <div class = "recent">
+            <div class="card">
+              <div class="card-body">
+              <h3>Recent Posts</h3>
+              <div>
+                 <!-- BLOG PICTURE -->
+              <img class="imgs" src="https://imgv3.fotor.com/images/blog-cover-image/10-profile-picture-ideas-to-make-you-stand-out.jpg" alt="img" />
+              <p > Blog about...</p>
+              </div><br>
+              
+            </div> 
+       </div>
+    </div>
     </div>
 </div>
 {% endblock %}
