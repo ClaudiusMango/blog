@@ -2,5 +2,346 @@
 {% load widget_tweaks %}
 
 {% block dashboard_content %}
-<h1>my posts</h1>
+
+
+{% block script %}
+    {% if show_post_details_modal %}
+    <script type="text/javascript">
+        window.onload = () => {
+                $('#blogPostDetails').modal('show');
+            }
+    </script>
+    {% endif %}
+    {% if show_post_section_details_modal %}
+    <script type="text/javascript">
+        window.onload = () => {
+                $('#postSectionModal').modal('show');
+            }
+    </script>
+    {% endif %}
+    {% if show_add_post_section_modal %}
+    <script type="text/javascript">
+        window.onload = () => {
+                $('#addPostSectionModal').modal('show');
+            }
+    </script>
+    {% endif %}
+{% endblock %}
+
+<div class="modal fade" id="addBlogPost" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addBlogPostLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <form class="modal-content" action="{% url 'writers_home_page' %}" method="post">
+            {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBlogPostLabel">Add blog post</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body row">
+            {{add_post_form.media}}
+            <div class="col-12">
+                {% if add_post_form.non_field_errors %}
+                    {% for error in add_post_form.non_field_errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                {% for field in add_post_form %}
+                <div class="col-12">
+                    {{ field.help_text }}
+                    {% for error in field.errors %}
+                    <p class="text-danger mb-1">{{error}}</p>
+                    {% endfor %}
+                    <div class="mb-3">
+                        <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                        {% render_field field class+="form-control" id=field.name placeholder=field.name|capfirst %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endwith %}
+        </div>
+        <div class="modal-footer d-flex">
+          <button type="button" class="btn btn-outline-danger me-2" data-bs-dismiss="modal">Cancel</button>
+          <input type="submit" value="Submit" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+</div>
+
+
+
+{% if post %}
+
+<div class="modal fade" id="addPostSectionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addPostSectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <form class="modal-content" action="{% url 'add_blog_post_section' post.id %}" method="post">
+            {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPostSectionModalLabel">Add post section</h5>
+            </div>
+            <div class="modal-body row">
+                {{add_blog_post_section_form.media}}
+                <div class="col-12">
+                    {% if add_blog_post_section_form.non_field_errors %}
+                        {% for error in add_blog_post_section_form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{error}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                    {% for field in add_blog_post_section_form %}
+                    <div class="col-12">
+                        {{ field.help_text }}
+                        {% for error in field.errors %}
+                        <p class="text-danger mb-1">{{error}}</p>
+                        {% endfor %}
+                        <div class="mb-3">
+                            <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                            {% render_field field class+="form-control" id=field.name placeholder=field.name|capfirst %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endwith %}
+            </div>
+            <div class="modal-footer d-flex">
+                <a href="{% url 'blog_post_details' post.id %}" class="btn btn-outline-danger me-2">Cancel</a>
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="blogPostDetails" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="blogPostDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <form class="modal-content" action="{% url 'blog_post_details' post.id %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="blogPostDetailsLabel">Post details</h5>
+                </div>
+                <div class="modal-body row">
+                    {{blog_post_details_form.media}}
+                    <div class="col-12">
+                        {% if blog_post_details_form.non_field_errors %}
+                            {% for error in blog_post_details_form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{error}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                        {% for field in blog_post_details_form %}
+                        <div class="col-12">
+                            {{ field.help_text }}
+                            {% for error in field.errors %}
+                            <p class="text-danger mb-1">{{error}}</p>
+                            {% endfor %}
+                            <div class="mb-3">
+                                <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                                {% render_field field class+="form-control" id=field.name placeholder=field.name|capfirst %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endwith %}
+                    <div class="col-12 d-flex">
+                        <button type="button" class="btn ms-auto btn-danger me-2" data-bs-toggle="modal" data-bs-target="#deletePostModal">
+                            <svg class="me-1" width="24" height="24"><use xlink:href="#trash-bin"/></svg>
+                            <span>Delete post</span>
+                        </button>
+                        <a href="{% url 'add_blog_post_section' post.id %}" class="btn btn-primary me-2"> Add post section</a>
+                        <input type="submit" value="Update post" class="btn btn-primary">
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        {% for section in post.post_sections %}
+                        <div class="card mt-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="m-0">{{section.sub_title | capfirst}}</h5>
+                                <div class="dropstart">
+                                    <button class="btn dropdown-toggle-none d-flex align-items-center" type="button" id="postSectionMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <svg width="24" height="24"><use xlink:href="#more"/></svg>
+                                        <span class="visually-hidden">Actions</span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="postSectionMenu">
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center" href="{% url 'blog_post_section_details' section.id %}">
+                                                <svg class="me-2" width="16" height="16"><use xlink:href="#pencil-square"/></svg>
+                                                <span>Edit section</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {% if section.image_url != "" %}
+                                <img src="{{ post.image_url }}" class="card-img-top mx-auto" alt="Post image" style="width: auto; max-height: 300px;">
+                                {% endif %}
+                                <p>{{ section.content | safe }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer d-flex">
+                <a href="{% url 'writers_home_page' %}" class="btn btn-outline-danger me-2">Cancel</a>
+                </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deletePostModalLabel">Warning</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure to delete this post. This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="{% url 'blog_post_details' post.id %}" type="button" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'delete_blog_post' post.id %}" type="button" class="btn btn-danger">Confirm</a>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% if post_section %}
+<div class="modal fade" id="postSectionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="postSectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <form class="modal-content" action="{% url 'blog_post_section_details' post_section.id %}" method="post">
+            {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="postSectionModalLabel">Post section</h5>
+            </div>
+            <div class="modal-body row">
+                {{blog_post_section_details_form.media}}
+                <div class="col-12">
+                    {% if blog_post_section_details_form.non_field_errors %}
+                        {% for error in blog_post_section_details_form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{error}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                    {% for field in blog_post_section_details_form %}
+                    <div class="col-12">
+                        {{ field.help_text }}
+                        {% for error in field.errors %}
+                        <p class="text-danger mb-1">{{error}}</p>
+                        {% endfor %}
+                        <div class="mb-3">
+                            <label for="{{ field.name }}">{{ field.label_tag }}</label>
+                            {% render_field field class+="form-control" id=field.name placeholder=field.name|capfirst %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endwith %}
+            </div>
+            <div class="modal-footer d-flex">
+                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#deleteSectionModal">
+                    <svg class="me-1" width="24" height="24"><use xlink:href="#trash-bin"/></svg>
+                    <span>Delete section</span>
+                </button>
+                <a href="{% url 'blog_post_details' post_section.blog_post.id %}" class="btn btn-outline-danger me-2">Cancel</a>
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteSectionModal" tabindex="-1" aria-labelledby="deleteSectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteSectionModalLabel">Warning</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure to delete this section. This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="{% url 'blog_post_section_details' post_section.id %}" type="button" class="btn btn-secondary">Cancel</a>
+            <a href="{% url 'delete_blog_post_section' post_section.id %}" type="button" class="btn btn-danger">Confirm</a>
+        </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="card d-flex flex-fill">
+    <div class="card-header d-flex align-items-center justify-content-between bg-white">
+        <h3 class=" card-title">My blog posts</h3>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBlogPost">
+            <svg class="me-1" width="24" height="24"><use xlink:href="#pencil-square"/></svg>
+            <span>Add</span>
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Blog post title</th>
+                        <th>Blog name</th>
+                        <th>Date posted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                    <tr>
+                        <td><strong>{{forloop.counter}}</strong></td>
+                        <td><strong>{{post.title | capfirst}}</strong></td>
+                        <td>{{post.blog.title}}</td>
+                        <td>{{post.posted_on}}</td>
+                        <td>
+                            <div class="dropstart">
+                                <button class="btn dropdown-toggle-none d-flex align-items-center" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="height: 24px;">
+                                    <svg width="24" height="24"><use xlink:href="#more"/></svg>
+                                    <span class="visually-hidden">Actions</span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center" href="{% url 'blog_post_details' post.id %}">
+                                            <svg class="me-2" width="16" height="16"><use xlink:href="#pencil-square"/></svg>
+                                            <span>Edit post</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            <div class="alert alert-info m-0" role="alert">
+                                No post record yet.
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -90,6 +90,7 @@ def log_in(request):
                     next = request.GET.get('next')
                 except:
                     next = None
+                    
                 if next is None:
                     if request.user.is_staff:
                         try:

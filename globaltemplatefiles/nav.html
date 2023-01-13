@@ -5,6 +5,12 @@
         Staff members
       </a>
     </li>
+    <li>
+      <a href="{% url 'writers_home_page' %}" class="nav-link link-dark">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#pencil-square"/></svg>
+        My posts
+      </a>
+    </li>
     {% if user.is_authenticated %}
     <li>
       <a href="{% url 'user_profile' user.username %}" class="nav-link link-dark">

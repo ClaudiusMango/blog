@@ -10,7 +10,29 @@ class StaffUser(models.Model):
     ('writer', 'Writer'),
     ]
     user = models.OneToOneField(to=User,null=True,on_delete=models.CASCADE)
-    designation=models.CharField(max_length=200,choices=DESIGNATION)
+    designation=models.CharField(max_length=200,choices=DESIGNATION, default='writer')
+    profile_picture = models.ImageField(upload_to='profile_pictures', blank=True, null=True)
 
     def __str__(self) -> str:
-        return self.designation
+        if self.designation != None:
+            return f"{self.user.first_name } {self.user.last_name} - {self.designation}"
+        else:
+            try:
+                return f"{self.user.first_name } {self.user.last_name}"
+            except:
+                return super().__str__()
+
+    @property
+    def full_name(self):
+        try:
+            return f"{self.user.first_name } {self.user.last_name}"
+        except:
+            return super().__str__()
+    @property
+    def image_url(self):
+        try:
+            url = self.profile_picture.url
+        except:
+            url = ''
+
+        return url

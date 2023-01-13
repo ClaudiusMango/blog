@@ -9,11 +9,6 @@ User=get_user_model()
 
 admin.site.register(Blog)
 
-class WriterInlineAdmin(admin.StackedInline):
-    model = Writer
-    can_delete = True
-    verbose_name_plural = 'Writers'
-
 class BlogSectionInlineAdmin(admin.StackedInline):
     model = BlogPostSection
     can_delete = True
